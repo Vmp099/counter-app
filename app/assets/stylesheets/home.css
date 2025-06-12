@@ -1,0 +1,132 @@
+/* Resetando margens e padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #121212;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.container {
+    background-color: #1e1e1e;
+    border-radius: 20px;
+    padding: 25px;
+    width: 100%;
+    max-width: 800px; /* Ajuste para garantir o máximo da largura */
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Título */
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+/* Carrossel de Imagens */
+.carousel-container {
+    width: 50%;
+    max-width: 800px; /* Para garantir que o carrossel não ultrapasse a tela */
+    height: auto;
+    position: relative;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.carousel-images {
+    display: flex;
+    width: 50%;
+    transition: transform 0.5s ease;
+}
+
+.carousel-images img {
+    width: 50%; /* Deixa as imagens ajustáveis para o tamanho do carrossel */
+    height: auto; /* Mantém a proporção da imagem */
+    object-fit: contain; /* Ajusta para a imagem não ser cortada */
+    border-radius: 15px;
+}
+
+/* Botões de navegação */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 24px;
+    transition: background-color 0.3s;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+/* Texto romântico */
+.quote {
+    font-size: 24px;
+    font-weight: 600;
+    color: #ff7b72;
+    margin: 20px 0;
+    letter-spacing: 1px;
+}
+
+/* Contagem de tempo */
+.heart {
+    font-size: 28px;
+    color: #ff7b72;
+    margin-top: 15px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .counter {
+        font-size: 18px;
+    }
+
+    .quote {
+        font-size: 20px;
+    }
+
+    .heart {
+        font-size: 24px;
+    }
+}

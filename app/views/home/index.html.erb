@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Dia dos Namorados</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+      <%= stylesheet_link_tag 'application', media: 'all' %>
+  </head>
+  <body class="bg-dark text-white" style="font-family: 'Roboto', sans-serif;">
+    <div class="container">
+        <div class="music-player d-flex align-items-center justify-content-center my-4" style="background:#222;border-radius:16px;padding:20px;max-width:400px;margin:auto;box-shadow:0 4px 24px #0002;">
+          <button id="play-btn" onclick="toggleMusic()" class="btn btn-light rounded-circle me-3" style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 2px 8px #0001;">
+            <span id="play-icon">▶</span>
+          </button>
+          <div class="flex-grow-1">
+            <div class="fw-bold" style="font-size:1.1rem;">❤ Nossa Música ❤</div>
+            <div class="text-muted" style="font-size:0.95rem;">LikeThis.mp3</div>
+            <div class="progress mt-2" style="height:6px;">
+              <div id="music-progress" class="progress-bar bg-danger" role="progressbar" style="width:0%"></div>
+            </div>
+          </div>
+          <audio id="audio" src="<%= asset_path('LikeThis.mp3') %>"></audio>
+        </div>
+
+        <h1 class="text-center my-4">Feliz Dia dos Namorados!</h1>
+        
+        <div id="carouselExampleCaptions" class="carousel slide">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5" aria-label="Slide 6"></button>
+            
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="<%= asset_path('foto01.jpg') %>"  class="d-block" style="width: 345px; height: 345px;">
+            </div>
+            <div class="carousel-item">
+              <img src="<%= asset_path('foto02.jpg') %>"  class="d-block" style="width: 345px; height: 345px;">
+            </div>
+            <div class="carousel-item">
+              <img src="<%= asset_path('foto03.jpg') %>"  class="d-block" style="width: 345px; height: 345px;">
+            </div>
+            <div class="carousel-item">
+              <img src="<%= asset_path('foto04.jpg') %>"  class="d-block" style="width: 345px; height: 345px;">
+            </div>
+            <div class="carousel-item">
+              <img src="<%= asset_path('foto05.jpg') %>"  class="d-block" style="width: 345px; height: 345px;">
+            </div>
+            <div class="carousel-item">
+              <img src="<%= asset_path('foto06.jpg') %>" class="d-block" style="width: 345px; height: 345px;">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+
+        <!-- Texto romântico -->
+        <div class="quote">Te amo mais a cada dia!</div>
+
+        <!-- Contagem de tempo (na parte inferior) -->
+        <div class="heart">❤ Eu te amo há:</div>
+        <div id="time-counter"></div>
+
+        <!-- Barra de progresso (simulada) -->
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <%= javascript_include_tag 'application' %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script>
+    
+      const startDate = new Date('2024-12-07T18:12:44');
+
+      function updateCounter() {
+        const now = new Date();
+        let diff = now - startDate;
+
+        // Calcular meses completos
+        let months = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+        let tempDate = new Date(startDate);
+        tempDate.setMonth(tempDate.getMonth() + months);
+
+        if (tempDate > now) {
+          months--;
+          tempDate.setMonth(tempDate.getMonth() - 1);
+        }
+
+        // Calcular dias, horas, minutos, segundos restantes
+        let days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
+        let hours = now.getHours() - tempDate.getHours();
+        let minutes = now.getMinutes() - tempDate.getMinutes();
+        let seconds = now.getSeconds() - tempDate.getSeconds();
+
+        if (seconds < 0) {
+          seconds += 60;
+          minutes--;
+        }
+        if (minutes < 0) {
+          minutes += 60;
+          hours--;
+        }
+        if (hours < 0) {
+          hours += 24;
+          days--;
+        }
+
+        document.getElementById('time-counter').textContent =
+          `${months} meses, ${days} dias, ${hours} horas, ${minutes} minutos, ${seconds} segundos`;
+      }
+
+      // Barra de progresso simulada
+      function animateProgressBar(callback) {
+        const bar = document.getElementById('progress-bar');
+        let width = 0;
+        bar.style.height = '20px';
+        bar.style.background = '#e25555';
+        bar.style.transition = 'width 0.2s';
+        bar.style.borderRadius = '10px';
+        bar.style.margin = '10px 0';
+
+        function frame() {
+          if (width >= 100) {
+            if (callback) callback();
+            return;
+          }
+          width++;
+          bar.style.width = width + '%';
+          setTimeout(frame, 20);
+        }
+        frame();
+      }
+
+      // Esconde o contador inicialmente
+      document.getElementById('time-counter').style.display = 'none';
+      document.getElementById('progress-bar').style.display = 'block';
+
+      // Inicia a barra de progresso e só mostra o contador depois de completar
+      animateProgressBar(function() {
+        // Esconde a barra de progresso
+        document.getElementById('progress-bar').style.display = 'none';
+        // Mostra o contador
+        document.getElementById('time-counter').style.display = 'block';
+        // Remove o "Carregando..." do contador
+        document.getElementById('time-counter').textContent = '';
+        updateCounter();
+        setInterval(updateCounter, 1000);
+      });
+
+      // Player de música
+      const audio = document.getElementById('audio');
+      const playBtn = document.getElementById('play-btn');
+      const playIcon = document.getElementById('play-icon');
+      const progressBar = document.getElementById('music-progress');
+      const currentTimeEl = document.getElementById('current-time');
+      const durationEl = document.getElementById('duration');
+
+      function toggleMusic() {
+        if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+        }
+      }
+
+      audio.addEventListener('play', () => {
+        playIcon.textContent = '⏸';
+      });
+
+      audio.addEventListener('pause', () => {
+        playIcon.textContent = '▶';
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = percent + '%';
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+      });
+
+      audio.addEventListener('loadedmetadata', () => {
+        durationEl.textContent = formatTime(audio.duration);
+      });
+
+      function formatTime(sec) {
+        if (isNaN(sec)) return '0:00';
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${m}:${s.toString().padStart(2, '0')}`;
+      }
+
+      // Permite clicar na barra para avançar/retroceder
+      progressBar.parentElement.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const percent = x / rect.width;
+        audio.currentTime = percent * audio.duration;
+      });
+
+    </script>
+  </body>
+</html>
